@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+//using System.Web;
 
 namespace CCICNVSqlDb.Models
 {
@@ -20,8 +22,11 @@ namespace CCICNVSqlDb.Models
         public string Done { get; set; }
         public string Description { get; set; }
 
-        [Display(Name = "Family Picture")]
-        public byte[] FamilyPicture { get; set; }
+        //[Display(Name = "Family Picture")]
+        //public byte[] FamilyPicture { get; set; }
+        //public byte[] Thumbnail { get; set; }
+        //public int ImageMimeType { get; set; }
+        public virtual ICollection<File> Files { get; set; }
 
 
         [Display(Name = "Created Date")]
