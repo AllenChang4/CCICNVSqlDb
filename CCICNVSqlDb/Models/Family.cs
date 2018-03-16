@@ -18,15 +18,10 @@ namespace CCICNVSqlDb.Models
         public string State { get; set; }
         public string Zip { get; set; }
         public string Phone { get; set; }
+        public Byte[] FamilyPicture { get; set; }
 
         public string Done { get; set; }
         public string Description { get; set; }
-
-        //[Display(Name = "Family Picture")]
-        //public byte[] FamilyPicture { get; set; }
-        //public byte[] Thumbnail { get; set; }
-        //public int ImageMimeType { get; set; }
-        public virtual ICollection<File> Files { get; set; }
 
 
         [Display(Name = "Created Date")]

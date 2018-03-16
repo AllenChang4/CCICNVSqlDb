@@ -34,12 +34,12 @@ namespace CCICNVSqlDb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Family Family = db.Families.Find(id);
-            if (Family == null)
+            Family family = db.Families.Find(id);
+            if (family == null)
             {
                 return HttpNotFound();
             }
-            return View(Family);
+            return View(family);
         }
 
         // GET: Families/Create
@@ -54,27 +54,14 @@ namespace CCICNVSqlDb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FamilyName,Parent,Children,ChineseName,Address,City,State,Zip,Phone,Files,Description,CreatedDate")] Family family, HttpPostedFileBase image)
+        public ActionResult Create([Bind(Include = "FamilyName,Parent,Children,ChineseName,Address,City,State,Zip,Phone,Description,CreatedDate")] Family family, HttpPostedFileBase image)
         {
             Trace.WriteLine("POST /Families/Create");
             try
             { 
                 if (ModelState.IsValid)
                 {
-                    if (image != null && image.ContentLength > 0)
-                    {
-                        var fFile = new File
-                        {
-                            FileName = System.IO.Path.GetFileName(image.FileName),
-                            FileType = FileType.Avatar,
-                            ContentType = image.ContentType
-                        };
-                        using (var reader = new System.IO.BinaryReader(image.InputStream))
-                        {
-                            fFile.Content = reader.ReadBytes(image.ContentLength);
-                        }
-                        family.Files = new List<File> { fFile };
-                    }
+                    GetFamilyPicture(family,image);
                     db.Families.Add(family);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -85,18 +72,24 @@ namespace CCICNVSqlDb.Controllers
             }
             return View(family);
         }
-        //public FileContentResult GetThumbnailImage(int Id)
-        //{
-        //    Family family = db.Families.FirstOrDefault(p => p.ID == Id);
-        //    if (family != null)
-        //    {
-        //        return File(family.Thumbnail, family.ImageMimeType.ToString());
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
+
+        public void GetFamilyPicture(Family family, HttpPostedFileBase image)
+        {
+            try
+            { 
+                if (image != null && image.ContentLength > 0)
+                {
+                    string FileName = System.IO.Path.GetFileName(image.FileName);
+                    using (var reader = new System.IO.BinaryReader(image.InputStream))
+                    {
+                        family.FamilyPicture = reader.ReadBytes(image.ContentLength);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+            }
+        }
 
         // GET: Families/Edit/5
         public ActionResult Edit(int? id)
@@ -106,66 +99,44 @@ namespace CCICNVSqlDb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Family family = db.Families.Include(s => s.Files).SingleOrDefault(s => s.ID == id);
-            //Family Family = db.Families.Find(id);
+            //Family family = db.Families.Include(s => s.Files).SingleOrDefault(s => s.ID == id);
+            Family family = db.Families.Find(id);
             if (family == null)
             {
                 return HttpNotFound();
             }
             return View(family);
         }
-
         // POST: Families/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FamilyName,Parent,Children,ChineseName,Address,City,State,Zip,Phone,Files,Description,CreatedDate")] Family family, HttpPostedFileBase image)
+        public ActionResult Edit([Bind(Include = "ID,FamilyName,Parent,Children,ChineseName,Address,City,State,Zip,Phone,FamilyPicture,Description,CreatedDate")] Family family, HttpPostedFileBase image)
         {
-            if (family == null) return View(family); 
-            Trace.WriteLine("POST /Families/Edit/" + family.ID);
-            int id = family.ID;
-            Family oldfamily = db.Families.Include(s => s.Files).SingleOrDefault(s => s.ID == id);
             try
             {
                 if (ModelState.IsValid)
                 {
                     if (image != null && image.ContentLength > 0)
                     {
-                        if (family.Files != null)
-                        {
-                            if (family.Files.Any(f => f.FileType == FileType.Avatar))
-                            {
-                                db.Files.Remove(family.Files.First(f => f.FileType == FileType.Avatar));
-                            }
-                        }
-                        var avatar = new File
-                        {
-                            FileName = System.IO.Path.GetFileName(image.FileName),
-                            FileType = FileType.Avatar,
-                            ContentType = image.ContentType
-                        };
-                        using (var reader = new System.IO.BinaryReader(image.InputStream))
-                        {
-                            avatar.Content = reader.ReadBytes(image.ContentLength);
-                        }
-                        family.Files = new List<File> { avatar };
+                        GetFamilyPicture(family, image);
+                        db.Entry(family).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-                        var avatar = oldfamily.Files.First(f => f.FileType == FileType.Avatar);
-                        family.Files = new List<File> { avatar };
+                        db.Entry(family).State = EntityState.Modified;
+                        db.Entry(family).Property(f => f.FamilyPicture).IsModified = false;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
                     }
-                    var trackedEntity = db.Families.Find(family.ID);
-                    db.Entry(trackedEntity).State = EntityState.Modified;
-                    //db.Entry(family).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+
                 }
             }
             catch (Exception ex)
             {
-
             }
             return View(family);
         }

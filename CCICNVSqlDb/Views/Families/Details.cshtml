@@ -10,15 +10,17 @@
     <h4>Family</h4>
     <hr />
     <dl class="dl-horizontal">
-        @if (Model.Files.Any(f => f.FileType == CCICNVSqlDb.Models.FileType.Avatar))
-        {
+    @if (Model.FamilyPicture != null)
+    {
         <dt>
             Family Picture
         </dt>
+        var base64 = Convert.ToBase64String(Model.FamilyPicture);
+        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
         <dd>
-            <img src="~/File?id=@Model.Files.First(f => f.FileType == CCICNVSqlDb.Models.FileType.Avatar).FileId" alt="avatar" width="200" height="200"/>
+            <img src="@imgSrc" alt="Picture" width="200" height="200" />
         </dd>
-        }
+    }
         <dt>
             @Html.DisplayNameFor(model => model.FamilyName)
         </dt>

@@ -21,6 +21,5 @@ namespace CCICNVSqlDb.Models
 
         //public System.Data.Entity.DbSet<CCICNVSqlDb.Models.Todo> Todoes { get; set; }
         public System.Data.Entity.DbSet<CCICNVSqlDb.Models.Family> Families { get; set; }
-        public System.Data.Entity.DbSet<File> Files { get; set; }
     }
 }
