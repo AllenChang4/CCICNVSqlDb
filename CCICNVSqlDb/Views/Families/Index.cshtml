@@ -12,46 +12,64 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.FamilyPicture)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.FamilyName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Parent)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Children)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.ChineseName)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
     <tr>
+        @if (item.FamilyPicture != null)
+        {
+        var base64 = Convert.ToBase64String(item.FamilyPicture);
+        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+        <td>
+            <img src="@imgSrc" alt="Picture" width="60" height="50" />
+        </td>
+        }
+        else
+        {
+        <td>
+            <img src="" alt="Picture" width="60" height="50" />
+        </td>
+        }
         <td>
             @Html.DisplayFor(modelItem => item.FamilyName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Parent)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.Children)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.ChineseName)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
+        </td>*@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
             @Html.ActionLink("Details", "Details", new { id = item.ID }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.ID })
         </td>
     </tr>
-}
+    }
 
 </table>

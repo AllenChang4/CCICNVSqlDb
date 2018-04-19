@@ -149,11 +149,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201804181349533_AddProperty.cs" />
-    <Compile Include="Migrations\201804181349533_AddProperty.Designer.cs">
-      <DependentUpon>201804181349533_AddProperty.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Family.cs" />
     <Compile Include="Models\MyDatabaseContext.cs" />
     <Compile Include="Models\Todo.cs" />
@@ -224,11 +219,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804181349533_AddProperty.resx">
-      <DependentUpon>201804181349533_AddProperty.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

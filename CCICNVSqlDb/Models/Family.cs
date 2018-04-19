@@ -10,7 +10,11 @@ namespace CCICNVSqlDb.Models
     {
         public int ID { get; set; }
         public string FamilyName { get; set; }
+
+        [Display(Name = "First Name")]
         public string Parent { get; set; }
+
+        [Display(Name = "姓名")]
         public string ChineseName { get; set; }
         public string Children { get; set; }
         public string ChildrenChineseName { get; set; }
