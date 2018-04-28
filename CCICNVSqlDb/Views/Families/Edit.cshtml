@@ -18,16 +18,16 @@
     @Html.HiddenFor(model => model.ID)
     @if (Model.FamilyPicture != null)
     {
-    <div class="form-group">
-        <span class="control-label col-md-2"><strong>Current Picture</strong></span>
-        <div class="col-md-10">
-            @{
-            var base64 = Convert.ToBase64String(Model.FamilyPicture);
-            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-            <img src="@imgSrc" alt="Picture" width="200" height="200" />
-            }
+        <div class="form-group">
+            <span class="control-label col-md-2"><strong>Current Picture</strong></span>
+            <div class="col-md-10">
+                @{
+                    var base64 = Convert.ToBase64String(Model.FamilyPicture);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <img src="@imgSrc" alt="Picture" width="200" height="200" />
+                }
+            </div>
         </div>
-    </div>
     }
 
     <div class="form-group">
@@ -52,17 +52,17 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Children, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Children, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Children, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
         @Html.LabelFor(model => model.ChineseName, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.ChineseName, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.ChineseName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Children, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Children, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Children, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
@@ -98,6 +98,20 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Congregation, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Congregation, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Congregation, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Fellowship, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Fellowship, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Fellowship, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
